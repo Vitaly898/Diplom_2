@@ -3,7 +3,6 @@ import Models.User;
 import Helpers.Constants;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-
 import static Helpers.BaseClient.getSpec;
 import static io.restassured.RestAssured.given;
 

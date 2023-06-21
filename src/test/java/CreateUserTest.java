@@ -3,6 +3,7 @@ import Models.User;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
 import static org.hamcrest.CoreMatchers.*;
+import io.qameta.allure.Description;
 
 
 
@@ -12,6 +13,7 @@ public class CreateUserTest {
 
 
     @Test
+    @Description("Создание уникального пользователя")
     public void createUniqueUserTest(){
         User user = new User("Ivan","petrov@yandex.ru","12345");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -23,6 +25,7 @@ public class CreateUserTest {
 
     }
     @Test
+    @Description("Повторное создание пользователя")
     public void createUserThatWasCreatedTest(){
         User user = new User("Ivan","ivanperov@yandex.ru","12345");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -32,6 +35,7 @@ public class CreateUserTest {
                 .body("message", equalTo("User already exists"));
     }
     @Test
+    @Description("Создание пользователя без E-mail")
     public void createUserWithoutEmailTest(){
         User user = new User("Ivan",null,"12345");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -40,6 +44,7 @@ public class CreateUserTest {
                 .body("message", equalTo("Email, password and name are required fields"));
     }
     @Test
+    @Description("Создание поьзователя без пароля")
     public void createUserWithoutPasswordTest(){
         User user = new User("Ivan","ivarov@yandex.ru",null);
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -50,6 +55,7 @@ public class CreateUserTest {
 
 
     @After
+    @Description("Удаление пользователя")
     public void shutDown() {
         if (token != null) {
             UserClient.deleteUser(token).log().all();

@@ -1,7 +1,5 @@
 package Helpers;
 
-import groovyjarjarasm.asm.commons.StaticInitMerger;
-import io.restassured.RestAssured;
 
 public class Constants {
     public static final String CREATE_USER = "/api/auth/register";

@@ -1,11 +1,9 @@
 package Client;
-import Models.User;
 import Models.Order;
 import Helpers.Constants;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
-import java.util.ConcurrentModificationException;
 
 import static Helpers.BaseClient.getSpec;
 import static io.restassured.RestAssured.given;

@@ -1,5 +1,6 @@
 import Client.UserClient;
 import Models.User;
+import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
 
@@ -13,6 +14,7 @@ public class EditUserInfoTest {
     String token;
 
     @Test
+    @Description("Редактирование пользователя с авторизацией")
     public void EditUserInfoWithAuthorizationTest(){
     user = new User("Mihail","michael@yandex.ru","123456");
     ValidatableResponse createUser = UserClient.createUser(user).log().all();
@@ -26,6 +28,7 @@ public class EditUserInfoTest {
     }
 
     @Test
+    @Description("Редактирование пользователя без авторизации")
     public void EditUserInfoWithoutAuthorization(){
         user = new User("Mark","ark@yandex.ru","123456");
         ValidatableResponse response = UserClient.editUser(user,"").log().all();
@@ -34,6 +37,7 @@ public class EditUserInfoTest {
     }
 
     @After
+    @Description("Удаление пользователя")
     public void shutDown(){
         if (token != null) {
             UserClient.deleteUser(token).log().all();

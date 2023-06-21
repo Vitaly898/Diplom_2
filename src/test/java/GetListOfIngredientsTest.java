@@ -2,13 +2,14 @@ import Client.UserClient;
 import Client.OrderClient;
 import Models.User;
 import Models.Order;
+import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.After;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -20,6 +21,7 @@ public class GetListOfIngredientsTest {
 
 
     @Test
+    @Description("Получение списка заказов без авторизации")
     public void getListOfOrdersWithoutAuthorization(){
         User user = new User("Lesha","alekseiev@yandex.ru","123456");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -31,6 +33,7 @@ public class GetListOfIngredientsTest {
     }
 
     @Test
+    @Description("Получение списка заказов с авторизацией")
     public void getListOfOrdersWithAuthorization(){
         user = new User("Egor","yogo@yandex.ru","12345");
         ValidatableResponse response = UserClient.createUser(user).log().all();
@@ -47,6 +50,7 @@ public class GetListOfIngredientsTest {
     }
 
     @After
+    @Description("Удаление пользователя")
     public void shutDown() {
         if (token != null) {
             UserClient.deleteUser(token).log().all();

@@ -2,6 +2,7 @@ import Client.UserClient;
 import Client.OrderClient;
 import Models.User;
 import Models.Order;
+import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
 
@@ -18,6 +19,7 @@ public class OrderCreateTest {
     String token;
     //Создание заказа авторизованным пользователем
     @Test
+    @Description("Создание заказа с авторизацией")
     public void createOrderWithAuthorization(){
         User user = new User("Lesha","aleksei@yandex.ru","123456");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -32,6 +34,7 @@ public class OrderCreateTest {
                 .statusCode(200);
     }
     @Test
+    @Description("Создание заказа с авторизацией без ингредиентов")
     public void createOrderWithAuthorizationWithoutIngredients(){
         User user = new User("Lesha","aleksei@yandex.ru","123456");
         ValidatableResponse createUser = UserClient.createUser(user);
@@ -43,6 +46,7 @@ public class OrderCreateTest {
                 .statusCode(400);
     }
     @Test
+    @Description("Создание заказа без авторизации")
     public void createOrderWithoutAuthorization(){
     ingredients = OrderClient.getListOfIngredients().extract().path("data._id");
     order = new Order(ingredients);
@@ -53,6 +57,7 @@ public class OrderCreateTest {
     }
 
     @Test
+    @Description("Создание заказа с неверными ингредиентами")
     public void createOrderWithWrongIngredients(){
     ingredients = new ArrayList<>();
     ingredients.add("1234");
@@ -63,6 +68,7 @@ public class OrderCreateTest {
     }
 
     @After
+    @Description("Удаление пользователя")
     public void shutDown() {
         if (token != null) {
             UserClient.deleteUser(token).log().all();

@@ -1,5 +1,6 @@
 import Client.UserClient;
 import Models.User;
+import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
 
@@ -14,6 +15,7 @@ public class LoginUserTest {
 
 
     @Test
+    @Description("Логин существующего пользователя")
     public void loginExistingUserTest(){
         user = new User("Egor","egoego@yandex.ru","12345");
         ValidatableResponse response = UserClient.createUser(user).log().all();
@@ -28,6 +30,7 @@ public class LoginUserTest {
 
     }
     @Test
+    @Description("Логин пользователя с неверным E-mail")
     public void loginUserWithWrongEmail(){
         user = new User("Egor","egor2@yandex.ru","12345");
         ValidatableResponse response = UserClient.createUser(user).log().all();
@@ -40,6 +43,7 @@ public class LoginUserTest {
                 .body("message",equalTo("email or password are incorrect"));
     }
     @Test
+    @Description("Логин пользователя с неверным паролем")
     public void loginUserWithWrongPassword(){
         user = new User("Egor","vanivanchich@yandex.ru","12345");
         ValidatableResponse response = UserClient.createUser(user);
@@ -54,6 +58,7 @@ public class LoginUserTest {
 
 
     @After
+    @Description("Удаление пользователя")
     public void shutDown(){
         UserClient.deleteUser(token).log().all();
     }
