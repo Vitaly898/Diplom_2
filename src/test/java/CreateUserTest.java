@@ -18,7 +18,7 @@ public class CreateUserTest {
         User user = new User("Ivan","petrov@yandex.ru","12345");
         ValidatableResponse createUser = UserClient.createUser(user);
         token = createUser.extract().path("accessToken");
-        createUser.log().all()
+        createUser
                 .statusCode(200)
                 .assertThat()
                 .body("success",equalTo(true));
@@ -30,7 +30,7 @@ public class CreateUserTest {
         User user = new User("Ivan","ivanperov@yandex.ru","12345");
         ValidatableResponse createUser = UserClient.createUser(user);
         ValidatableResponse createSameUser = UserClient.createUser(user);
-        createSameUser.log().all()
+        createSameUser
                 .statusCode(403)
                 .body("message", equalTo("User already exists"));
     }
@@ -39,7 +39,7 @@ public class CreateUserTest {
     public void createUserWithoutEmailTest(){
         User user = new User("Ivan",null,"12345");
         ValidatableResponse createUser = UserClient.createUser(user);
-        createUser.log().all()
+        createUser
                 .statusCode(403)
                 .body("message", equalTo("Email, password and name are required fields"));
     }
@@ -48,7 +48,7 @@ public class CreateUserTest {
     public void createUserWithoutPasswordTest(){
         User user = new User("Ivan","ivarov@yandex.ru",null);
         ValidatableResponse createUser = UserClient.createUser(user);
-        createUser.log().all()
+        createUser
                 .statusCode(403)
                 .body("message", equalTo("Email, password and name are required fields"));
     }
@@ -58,7 +58,7 @@ public class CreateUserTest {
     @Description("Удаление пользователя")
     public void shutDown() {
         if (token != null) {
-            UserClient.deleteUser(token).log().all();
+            UserClient.deleteUser(token);
         }
     }
 }

@@ -6,7 +6,6 @@ import io.restassured.filter.log.LogDetail;
 public class BaseClient {
     public static RequestSpecification getSpec(){
         return new RequestSpecBuilder()
-                .log(LogDetail.ALL)
                 .setBaseUri("https://stellarburgers.nomoreparties.site")
                 .build();
     }

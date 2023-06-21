@@ -18,12 +18,11 @@ public class LoginUserTest {
     @Description("Логин существующего пользователя")
     public void loginExistingUserTest(){
         user = new User("Egor","egoego@yandex.ru","12345");
-        ValidatableResponse response = UserClient.createUser(user).log().all();
+        ValidatableResponse response = UserClient.createUser(user);
         token = response.extract().path("accessToken");
         User userForLoginTest = new User(user.getEmail(), user.getPassword());
         ValidatableResponse loginUser = UserClient.loginUser(userForLoginTest);
         loginUser
-                .log().all()
                 .statusCode(200)
                 .body("success",equalTo(true));
 
@@ -33,12 +32,11 @@ public class LoginUserTest {
     @Description("Логин пользователя с неверным E-mail")
     public void loginUserWithWrongEmail(){
         user = new User("Egor","egor2@yandex.ru","12345");
-        ValidatableResponse response = UserClient.createUser(user).log().all();
+        ValidatableResponse response = UserClient.createUser(user);
         token = response.extract().path("accessToken");
         User userWithIncorrectEmail = new User("asddfa", user.getPassword());
         ValidatableResponse loginUserWithIncorrectEmail = UserClient.loginUser(userWithIncorrectEmail);
         loginUserWithIncorrectEmail
-                .log().all()
                 .statusCode(401)
                 .body("message",equalTo("email or password are incorrect"));
     }
@@ -51,7 +49,6 @@ public class LoginUserTest {
         User userWithIncorrectPassword = new User(user.getEmail(), "asdsfgh");
         ValidatableResponse loginUserWithIncorrectEmail = UserClient.loginUser(userWithIncorrectPassword);
         loginUserWithIncorrectEmail
-                .log().all()
                 .statusCode(401)
                 .body("message",equalTo("email or password are incorrect"));
     }
@@ -60,7 +57,7 @@ public class LoginUserTest {
     @After
     @Description("Удаление пользователя")
     public void shutDown(){
-        UserClient.deleteUser(token).log().all();
+        UserClient.deleteUser(token);
     }
 
 }

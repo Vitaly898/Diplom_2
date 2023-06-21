@@ -28,7 +28,7 @@ public class OrderCreateTest {
         ValidatableResponse loginUser = UserClient.loginUser(userForLogin);
         ingredients = OrderClient.getListOfIngredients().extract().path("data._id");
         order = new Order(ingredients);
-        ValidatableResponse createOrder = OrderClient.createOrder(order).log().all();
+        ValidatableResponse createOrder = OrderClient.createOrder(order);
         createOrder
                 .body("success", equalTo(true))
                 .statusCode(200);
@@ -41,7 +41,7 @@ public class OrderCreateTest {
         token = createUser.extract().path("accessToken");
         ValidatableResponse loginUser = UserClient.loginUser(user);
         order = new Order(ingredients);
-        ValidatableResponse createOrder = OrderClient.createOrder(order).log().all();
+        ValidatableResponse createOrder = OrderClient.createOrder(order);
         createOrder.body("message", equalTo("Ingredient ids must be provided"))
                 .statusCode(400);
     }
@@ -50,7 +50,7 @@ public class OrderCreateTest {
     public void createOrderWithoutAuthorization(){
     ingredients = OrderClient.getListOfIngredients().extract().path("data._id");
     order = new Order(ingredients);
-    ValidatableResponse createOrder = OrderClient.createOrder(order).log().all();
+    ValidatableResponse createOrder = OrderClient.createOrder(order);
     createOrder
             .body("success",equalTo(true))
             .statusCode(200);
@@ -63,7 +63,7 @@ public class OrderCreateTest {
     ingredients.add("1234");
     ingredients.add("5678");
     order = new Order(ingredients);
-    ValidatableResponse createOrder = OrderClient.createOrder(order).log().all();
+    ValidatableResponse createOrder = OrderClient.createOrder(order);
     createOrder.statusCode(500);
     }
 
@@ -71,7 +71,7 @@ public class OrderCreateTest {
     @Description("Удаление пользователя")
     public void shutDown() {
         if (token != null) {
-            UserClient.deleteUser(token).log().all();
+            UserClient.deleteUser(token);
         }
     }
 }
